@@ -1,0 +1,40 @@
+<head>
+    <title>메인 페이지</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+</head>
+
+<body>
+    <h2>>메인 페이지</h2>
+    <form  id="viewData_form" method="post">
+        <p><label for="name">A</label> <input id="fieldA" name="fieldA" size="15" type="text" readonly="true" /></p>
+        <p><label for="name">B</label> <input id="fieldB" name="fieldB" size="15" type="text" readonly="true" /></p>
+        <p><label for="name">C</label> <input id="fieldC" name="fieldC" size="15" type="text" readonly="true" /></p>
+        <p><label for="name">D</label> <input id="fieldD" name="fieldD" size="15" type="text" readonly="true" /></p>
+    </form>
+    <input  type="button" onclick="viewDataBtnClick()" value="조회" >
+</body>
+
+<script>
+    function viewDataBtnClick() {
+        $.ajax({
+            url:"/main_viewData",
+            type:"POST",
+            contentType: "application/json; charset=utf-8",
+            success: function(resData) { 
+               $("#fieldA").val(resData.A)
+               $("#fieldB").val(resData.B)
+               $("#fieldC").val(resData.C)
+               $("#fieldD").val(resData.D)
+            },
+            error: function() {
+                alert("조회 처리 중 에러가 발생했습니다");
+            }
+        })
+    }
+
+
+
+</script>
+

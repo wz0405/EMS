@@ -14,7 +14,7 @@ type serverStruct struct {
 }
 
 type serverConfig struct {
-	port string `yaml:"Port"`
+	Port string `yaml:"Port"`
 }
 
 func main() {
@@ -24,4 +24,5 @@ func main() {
 
 	fmt.Println("Start Server!")
 	server.startServer()
+
 }

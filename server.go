@@ -15,7 +15,7 @@ func (server *serverStruct) init() {
 	config := new(serverConfig)
 	confFile, err := ioutil.ReadFile("config.yaml")
 
-	err = yaml.Unmarshal(confFile, &config)
+	err = yaml.Unmarshal(confFile, config)
 	if err != nil {
 		//TODO: 오류 메세지 출력하기
 		return
@@ -29,7 +29,7 @@ func (server *serverStruct) init() {
 	server.SetRoute()
 
 	server.server = &http.Server{
-		Addr:           ":8080",
+		Addr:           ":" + config.Port,
 		Handler:        server.route,
 		ReadTimeout:    10 * time.Second,
 		WriteTimeout:   10 * time.Second,

@@ -29,8 +29,8 @@ func LoginActionHandler(c *gin.Context) {
 	reqBody := loginRequestData{}
 
 	data, err := c.GetRawData()
-//	dataString := string(data)
-//	fmt.Println(dataString)
+	//	dataString := string(data)
+	//	fmt.Println(dataString)
 
 	if err != nil {
 		fmt.Println(err.Error())

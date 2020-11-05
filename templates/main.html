@@ -14,6 +14,7 @@
         <p><label for="name">D</label> <input id="fieldD" name="fieldD" size="15" type="text" readonly="true" /></p>
     </form>
     <input  type="button" onclick="viewDataBtnClick()" value="조회" >
+    <input  type="button" onclick="viewApiBtnClick()" value="검색" >
 </body>
 
 <script>
@@ -27,6 +28,22 @@
                $("#fieldB").val(resData.B)
                $("#fieldC").val(resData.C)
                $("#fieldD").val(resData.D)
+            },
+            error: function() {
+                alert("조회 처리 중 에러가 발생했습니다");
+            }
+        })
+    }
+    function viewApiBtnClick() {
+        $.ajax({
+            url:"/api",
+            type:"POST",
+            contentType: "application/json; charset=utf-8",
+            success: function(resData) { 
+               $("#fieldA").val(resData.E)
+               $("#fieldB").val(resData.F)
+               $("#fieldC").val(resData.G)
+               $("#fieldD").val(resData.G)
             },
             error: function() {
                 alert("조회 처리 중 에러가 발생했습니다");

@@ -14,6 +14,6 @@ func (server *serverStruct) SetRoute() bool {
 
 	server.route.GET("/main", handler.MainHandler)
 	server.route.POST("/main_viewData", handler.MainViewDataHandler)
-	server.route.GET("/api", handler.APIBlogSearchHandler)
+	server.route.POST("/api", handler.APIBlogSearchHandler)
 	return true
 }

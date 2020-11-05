@@ -2,7 +2,6 @@ package handler
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"net/http"
 
@@ -10,16 +9,16 @@ import (
 )
 
 type Board struct {
-	ID      string
+	Id      int
 	Title   string
 	Content string
 }
 
 func APIBlogSearchHandler(c *gin.Context) {
-	//c.Header("Content-Type", "application/json charset=utf-8")
+	c.Header("Content-Type", "application/json charset=utf-8")
 
 	//TODO: 해당주소에 API호출 프로토콜 가져와보기
-	resp, err := http.Get("http://106.254.240.205:3030/posts/1")
+	resp, err := http.Get("http://106.254.240.205:3030/posts/")
 
 	if err != nil {
 		panic(err)
@@ -29,15 +28,23 @@ func APIBlogSearchHandler(c *gin.Context) {
 	respBody, err := ioutil.ReadAll(resp.Body)
 
 	var data map[string]interface{}
-
+	var datas []Board
 	json.Unmarshal([]byte(respBody), &data)
-	// fmt.Println(bo.ID, bo.Title, bo.Content)
-
+	json.Unmarshal([]byte(respBody), &datas)
 	if err == nil {
-		str := string(respBody)
+		//str := string(respBody)
 		//println(str)
-		fmt.Printf("%s\n", str)
+		//fmt.Printf("%s\n", str)
 	}
 
-	fmt.Println(data["id"], data["title"])
+	//fmt.Println(data["id"], data["title"])
+	idValue := datas[0].Id
+	titleValue := datas[0].Title
+	contentValue := datas[0].Content
+
+	c.JSON(200, gin.H{
+		"E": idValue,
+		"F": titleValue,
+		"G": contentValue,
+	})
 }

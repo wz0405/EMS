@@ -15,5 +15,7 @@ func (server *serverStruct) SetRoute() bool {
 	server.route.GET("/main", handler.MainHandler)
 	server.route.POST("/main_viewData", handler.MainViewDataHandler)
 	server.route.POST("/api", handler.APIBlogSearchHandler)
+
+	server.route.GET("/db", handler.PostgreSQLHandler)
 	return true
 }

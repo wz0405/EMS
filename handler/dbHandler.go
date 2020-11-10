@@ -5,54 +5,86 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/gin-gonic/gin"
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 
+	"github.com/gin-gonic/gin"
+	_ "github.com/go-sql-driver/mysql"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 const (
 	dbUser     = "admin@admin.com"
-	dbPassword = "admin"
+	dbPassword = "admin1234"
 	dbName     = "bms"
+	dbIp       = "db.pms-v2.svc:27017"
 )
 
-func PostgreSQLHandler(c *gin.Context) {
-	// 몽고DB 연결
-
-	clientOptions := options.Client().ApplyURI("mongodb://root:admin1234@db.pms-v2.svc:27017")
-	client, err := mongo.Connect(context.TODO(), clientOptions)
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	err = client.Ping(context.TODO(), nil)
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	fmt.Println("Connected to MongoDB!")
-
+type Dog struct {
+	ID     primitive.ObjectID
+	Name   string
+	Family string
+	Age    int
+	Weight int
+}
+type Settings struct {
+	ID                         primitive.ObjectID
+	Scale                      string
+	DefaultResultView          string
+	MongoBinaryPath            string
+	MaxAllowedFetchSize        int
+	AutoCompleteSamplesCount   int
+	SocketTimeoutInSeconds     int
+	ConnectionTimeoutInSeconds int
+	DbStatsScheduler           int
+	ShowDBStats                bool
+	ShowLiveChat               bool
+	Updates                    bool
+	SingleTabResultSets        bool
+	MaxLiveChartDataPoints     int
+	IsMigrationDone            bool
 }
 
-// func PostgreSQLHandler(c *gin.Context) {
-// 	dbinfo := fmt.Sprintf("user=%s password=%s dbname=%s sslmode=disable",
-// 		DB_USER, DB_PASSWORD, DB_NAME)
-// 	db, err := sql.Open("postgres", dbinfo)
-// 	if err != nil {
-// 		panic(err)
-// 	}
-// 	defer db.Close()
+func PostgreSQLHandler(c *gin.Context) {
+	// db, err := sql.Open("mysql", "root:charger!#123@(localhost:3306)/ship")
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+	// defer db.Close()
 
-// 	result, err := db.Exec("select * from public.bms_alarm_code")
-// 	if err != nil {
-// 		panic(err)
-// 	}
-// 	cntAffected, err := result.RowsAffected()
-// 	if err != nil {
-// 		panic(err)
-// 	}
-// 	fmt.Println("Affected Rows:", cntAffected)
-// }
+	// var user_id string
+	// err = db.QueryRow("SELECT user_id FROM user where seq=1").Scan(&user_id)
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+	// fmt.Println(user_id)
+
+	//몽고DB 연결
+	clientOptions1 := options.Client().ApplyURI("mongodb://localhost:27017")
+	clientOptions := options.Client().ApplyURI("mongodb://db.pms-v2.svc:27017")
+	client, err := mongo.NewClient(clientOptions)
+	client1, _ := mongo.NewClient(clientOptions1)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = client.Connect(context.Background())
+	err = client1.Connect(context.Background())
+	if err != nil {
+		log.Fatal(err)
+	}
+	collection1 := client1.Database("local").Collection("test")
+	collection := client.Database("strapi").Collection("settings")
+	// find documents
+
+	doc := collection.FindOne(context.TODO(), bson.M{})
+	doc1 := collection1.FindOne(context.TODO(), bson.M{})
+	var dog Dog
+	var settings Settings
+	doc1.Decode(&dog)
+	fmt.Println(dog)
+	doc.Decode(&settings)
+	fmt.Println(settings)
+
+}

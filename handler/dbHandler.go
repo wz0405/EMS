@@ -61,7 +61,7 @@ func PostgreSQLHandler(c *gin.Context) {
 	// fmt.Println(user_id)
 
 	//몽고DB 연결
-	clientOptions1 := options.Client().ApplyURI("mongodb://localhost:27017")
+	clientOptions1 := options.Client().ApplyURI("mongodb://localhost:27017/local")
 	clientOptions := options.Client().ApplyURI("mongodb://db.pms-v2.svc:27017")
 	client, err := mongo.NewClient(clientOptions)
 	client1, _ := mongo.NewClient(clientOptions1)

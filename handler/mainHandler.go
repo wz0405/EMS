@@ -32,3 +32,4 @@ func MainViewDataHandler(c *gin.Context) {
 	})
 
 }
+

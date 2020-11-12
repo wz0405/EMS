@@ -23,5 +23,6 @@ func (server *serverStruct) SetRoute() bool {
 	server.route.GET("/add", handler.AddProductHandler)
 	server.route.POST("/addProduct", handler.AddProduct)
 
+	server.route.POST("/postTest", handler.PostTest)
 	return true
 }

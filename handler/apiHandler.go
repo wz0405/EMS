@@ -2,6 +2,7 @@ package handler
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 
@@ -9,9 +10,9 @@ import (
 )
 
 type Board struct {
-	Id      int
-	Title   string
-	Content string
+	ID      int    `json:"ID"`
+	Title   string `json:"Title"`
+	Content string `json:"Content"`
 }
 
 func APIBlogSearchHandler(c *gin.Context) {
@@ -37,8 +38,8 @@ func APIBlogSearchHandler(c *gin.Context) {
 		//fmt.Printf("%s\n", str)
 	}
 
-	//fmt.Println(data["id"], data["title"])
-	idValue := datas[0].Id
+	fmt.Println(data["id"], data["title"])
+	idValue := datas[0].ID
 	titleValue := datas[0].Title
 	contentValue := datas[0].Content
 

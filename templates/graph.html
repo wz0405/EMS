@@ -30,8 +30,8 @@ function graph1() {
             function drawChart() {
              var data = google.visualization.arrayToDataTable([
              ['test', 'y','z'],
-             ['1',resData.y,resData.x],
-             ['2',resData.x,resData.y]
+             [resData.id,resData.y,resData.x],
+             [resData.id,resData.x,resData.y]
              ]);
 
     var options = {

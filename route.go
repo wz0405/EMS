@@ -24,5 +24,8 @@ func (server *serverStruct) SetRoute() bool {
 	server.route.POST("/addProduct", handler.AddProduct)
 
 	server.route.POST("/postTest", handler.PostTest)
+
+	server.route.GET("/graph", handler.GraphHandler)
+	server.route.GET("/getGraphData", handler.DrawGraph)
 	return true
 }

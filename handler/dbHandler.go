@@ -62,29 +62,27 @@ func PostgreSQLHandler(c *gin.Context) {
 
 	//몽고DB 연결
 	clientOptions1 := options.Client().ApplyURI("mongodb://localhost:27017/local")
-	clientOptions := options.Client().ApplyURI("mongodb://db.pms-v2.svc:27017")
-	client, err := mongo.NewClient(clientOptions)
-	client1, _ := mongo.NewClient(clientOptions1)
+	//clientOptions := options.Client().ApplyURI("mongodb://db.pms-v2.svc:27017")
+	//client, err := mongo.NewClient(clientOptions)
+	client1, err := mongo.NewClient(clientOptions1)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	err = client.Connect(context.Background())
+	//err = client.Connect(context.Background())
 	err = client1.Connect(context.Background())
-	if err != nil {
-		log.Fatal(err)
-	}
+
 	collection1 := client1.Database("local").Collection("test")
-	collection := client.Database("strapi").Collection("settings")
+	//collection := client.Database("strapi").Collection("settings")
 	// find documents
 
-	doc := collection.FindOne(context.TODO(), bson.M{})
+	//doc := collection.FindOne(context.TODO(), bson.M{})
 	doc1 := collection1.FindOne(context.TODO(), bson.M{})
 	var dog Dog
-	var settings Settings
+	//var settings Settings
 	doc1.Decode(&dog)
 	fmt.Println(dog)
-	doc.Decode(&settings)
-	fmt.Println(settings)
+	//doc.Decode(&settings)
+	//fmt.Println(settings)
 
 }

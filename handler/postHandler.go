@@ -43,12 +43,10 @@ func PostTest(c *gin.Context) {
 	c.Header("Content-Type", "application/json charset=utf-8")
 	var jsons Board
 	err := json.NewDecoder(c.Request.Body).Decode(&jsons)
-	if err != nil { 
+	if err != nil {
 		fmt.Println(err)
 	}
 	jsons.Title = "hey"
 	jsons.Content = "hi"
-
-	fmt.Println(jsons)
 	c.JSON(200, jsons)
 }

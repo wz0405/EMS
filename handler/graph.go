@@ -42,9 +42,16 @@ func DrawGraph(c *gin.Context) {
 	}
 	err = client1.Connect(context.Background())
 	collection1 := client1.Database("local").Collection("graph1")
-
 	//Find
-	cursor, err := collection1.Find(ctx, bson.M{})
+	findOptions := options.Find()
+	findOptions.SetProjection(bson.M{
+		"_id": 0,
+		"id":  1,
+		"x":   1,
+		"y":   1,
+	})
+	filter := bson.M{}
+	cursor, err := collection1.Find(ctx, filter, findOptions)
 	if err != nil {
 		log.Fatal(err)
 	}

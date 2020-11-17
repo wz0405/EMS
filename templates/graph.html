@@ -9,6 +9,7 @@
 <body>
   <div id="chart_div" style="width: 900px; height: 500px;"></div>
   <div id="chart_div1" style="width: 900px; height: 500px;"></div>
+  <div id="chart_div2" style="width: 900px; height: 500px;"></div>
 </body>
 
 
@@ -17,11 +18,11 @@
   $(document).ready(function () {
     defaultGraph();
     graph1();
+    graph2();
   });
-
-  function graph1() {
+  function graph2() {
     $.ajax({
-      url: "/getGraphData",
+      url: "/getGraphData1",
       type: "GET",
       contentType: "application/json; charset=utf-8",
       success: function (jsonData) {
@@ -50,10 +51,83 @@
           var data = google.visualization.arrayToDataTable(gglData);
 
           var options = {
-            title: 'Company Performance'
+            title: 'graph2'
+            ,
+            legend: {
+              position: 'bottom'
+            },
+
           };
 
-          var chart = new google.visualization.LineChart(document.getElementById('chart_div1'));
+          var chart = new google.visualization.ColumnChart(document.getElementById('chart_div2'));
+          chart.draw(data, options);
+        }
+      },
+      error: function () {
+        alert("조회 처리 중 에러가 발생했습니다");
+      }
+    })
+  }
+
+  function graph1() {
+    $.ajax({
+      url: "/getGraphData",
+      type: "GET",
+      contentType: "application/json; charset=utf-8",
+      success: function (jsonData) {
+        google.load("visualization", "2", { packages: ["corechart"] });
+        google.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+          var avg=0;
+          for (var i = 0; i < jsonData.length; i++) {
+            avg += jsonData[i].x;
+            avg += jsonData[i].y;
+          }
+          avg = avg/jsonData.length;
+          var data = new google.visualization.DataTable();
+            data.addColumn('string', 'id');
+            data.addColumn('number', 'x');
+            data.addColumn('number', 'y');
+            data.addColumn('number', '평균값');
+            for (var i = 0; i < jsonData.length; i++) {
+         
+                avg=avg;
+                asder = jsonData[i].id;
+                mes = jsonData[i].x;
+                total = jsonData[i].y;
+                data.addRow([asder,mes, total,avg]);
+            }
+          // if (jsonData.length > 0) {
+          //   // load column headings
+          //   var colHead = [];
+          //   Object.keys(jsonData[0]).forEach(function (key) {
+          //     colHead.push(key);
+          //   });
+          //   gglData.push(colHead);
+
+          //   // load data rows
+          //   jsonData.forEach(function (row) {
+          //     var gglRow = [];
+          //     Object.keys(row).forEach(function (key) {
+          //       gglRow.push(row[key]);
+          //     });
+          //     gglData.push(gglRow);
+          //   });
+          // }
+          //var data = google.visualization.arrayToDataTable(gglData);
+
+          var options = {
+            title: 'graph1',
+            seriesType: 'bars',
+            series: { 2: { type: 'line' } },
+            hAxis: {title: 'time'},
+            vAxis: {title: 'kwh'},
+            isStacked: true
+            ,
+          };
+
+          var chart = new google.visualization.ComboChart(document.getElementById('chart_div1'));
           chart.draw(data, options);
         }
       },
@@ -67,18 +141,20 @@
     google.setOnLoadCallback(drawChart);
     function drawChart() {
       var data = google.visualization.arrayToDataTable([
-        ['test', 'Sales', 'Expenses'],
-        ['1', 400, 400],
-        ['2', 522, 460],
-        ['3', 612, 1120],
-        ['4', 753, 540]
+        ['test', 'Sales'],
+        ['1', 400],
+        ['2', 522],
+        ['3', 612],
+        ['4', 753]
       ]);
 
       var options = {
-        title: 'Company Performance'
+        title: 'defaultGraph',
+        seriesType: 'bars',
+        series: { 1: { type: 'line' } }
       };
 
-      var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+      var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
       chart.draw(data, options);
     }
   }

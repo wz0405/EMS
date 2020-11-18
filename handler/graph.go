@@ -124,3 +124,33 @@ func DrawGraph1(c *gin.Context) {
 
 	c.JSON(200, episodes)
 }
+func DrawGraph2(c *gin.Context) {
+	c.Header("Content-Type", "application/json charset=utf-8")
+	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
+	clientOptions1 := options.Client().ApplyURI("mongodb://localhost:27017")
+	client1, err := mongo.NewClient(clientOptions1)
+	if err != nil {
+		log.Fatal(err)
+	}
+	err = client1.Connect(context.Background())
+	collection1 := client1.Database("local").Collection("graph3")
+
+	//Find
+	findOptions1 := options.FindOne()
+
+	findOptions1.SetProjection(bson.M{
+		"_id": 0,
+		"w":   1,
+		"z":   1,
+		"x":   1,
+		"y":   1,
+	})
+	filter := bson.M{}
+
+	//FindOne
+	//find 1개를 한 값을 넘겨줌
+	doc1 := collection1.FindOne(ctx, filter, findOptions1)
+	var finds bson.M
+	doc1.Decode(&finds)
+	c.JSON(200, finds)
+}

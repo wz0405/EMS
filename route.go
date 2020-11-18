@@ -28,5 +28,6 @@ func (server *serverStruct) SetRoute() bool {
 	server.route.GET("/graph", handler.GraphHandler)
 	server.route.GET("/getGraphData", handler.DrawGraph)
 	server.route.GET("/getGraphData1", handler.DrawGraph1)
+	server.route.GET("/getGraphData2", handler.DrawGraph2)
 	return true
 }

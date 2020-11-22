@@ -15,6 +15,7 @@ func (server *serverStruct) SetRoute() bool {
 	server.route.GET("/main", handler.MainHandler)
 	server.route.POST("/main_viewData", handler.MainViewDataHandler)
 	server.route.POST("/api", handler.APIBlogSearchHandler)
+	server.route.POST("/sendToGo", handler.ReceiveData)
 
 	server.route.GET("/db", handler.PostgreSQLHandler)
 
@@ -29,5 +30,8 @@ func (server *serverStruct) SetRoute() bool {
 	server.route.GET("/getGraphData", handler.DrawGraph)
 	server.route.GET("/getGraphData1", handler.DrawGraph1)
 	server.route.GET("/getGraphData2", handler.DrawGraph2)
+
+	server.route.GET("/jsonTest", handler.JsonHandler)
+	server.route.POST("/json_test", handler.JsonTestHandler)
 	return true
 }

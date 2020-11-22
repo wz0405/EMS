@@ -1,10 +1,19 @@
 package handler
 
 import (
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
 	"net/http"
 	"time"
 
 	"github.com/gin-gonic/gin"
+)
+
+type (
+	value struct {
+		Search string `json:"search"`
+	}
 )
 
 type ()
@@ -33,3 +42,23 @@ func MainViewDataHandler(c *gin.Context) {
 
 }
 
+func ReceiveData(c *gin.Context) {
+	//json형태로 값을 받음
+	data, _ := c.GetRawData()
+
+	reqBody := value{}
+	err := json.Unmarshal([]byte(data), &reqBody)
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+	resp, _ := http.Get("http://106.254.240.205:3030/posts/" + reqBody.Search)
+
+	respBody, _ := ioutil.ReadAll(resp.Body)
+
+	var data1 Board
+	json.Unmarshal([]byte(respBody), &data1)
+
+	c.JSON(200, data1)
+
+}

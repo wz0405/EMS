@@ -20,17 +20,17 @@ func APIBlogSearchHandler(c *gin.Context) {
 
 	//TODO: 해당주소에 API호출 프로토콜 가져와보기
 	resp, err := http.Get("http://106.254.240.205:3030/posts/")
-
+	resp1, _ := http.Get("http://106.254.240.205:3030/posts/1")
 	if err != nil {
 		panic(err)
 	}
 	defer resp.Body.Close()
 
 	respBody, err := ioutil.ReadAll(resp.Body)
-
-	var data map[string]interface{}
+	respBody1, _ := ioutil.ReadAll(resp1.Body)
+	var data Board
 	var datas []Board
-	json.Unmarshal([]byte(respBody), &data)
+	json.Unmarshal([]byte(respBody1), &data)
 	json.Unmarshal([]byte(respBody), &datas)
 	if err == nil {
 		//str := string(respBody)
@@ -38,7 +38,7 @@ func APIBlogSearchHandler(c *gin.Context) {
 		//fmt.Printf("%s\n", str)
 	}
 
-	fmt.Println(data["id"], data["title"])
+	fmt.Println(data.Title)
 	idValue := datas[0].ID
 	titleValue := datas[0].Title
 	contentValue := datas[0].Content

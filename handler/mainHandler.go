@@ -46,7 +46,7 @@ func ReceiveData(c *gin.Context) {
 	//json형태로 값을 받음
 	data, _ := c.GetRawData()
 
-	reqBody := value{}
+	var reqBody value
 	err := json.Unmarshal([]byte(data), &reqBody)
 	if err != nil {
 		fmt.Println(err.Error())

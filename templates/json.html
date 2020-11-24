@@ -8,9 +8,9 @@
 </head>
 
 <body>
-    <h2>josn 페이지</h2>
+    <h2>json 페이지</h2>
     <input id="fieldA" name="fieldA" size="15" type="date" /></p>
-  
+    <input id="fieldB" name="fieldB" size="15" type="text" /></p>
     <input  type="button" onclick="viewJson()" value="조회" >
 
     
@@ -23,14 +23,14 @@
     function viewJson() {
 
     var dataA = $("#fieldA").val()
+    var dataB = $("#fieldB").val()
 
     var inputdata = { "Id":dataA }
-    alert(JSON.stringify(inputdata));
-    
+    var inputdata2 = { "Id":dataB }
     $.ajax({
         url:"/json_test",
         type:"POST",
-        data : JSON.stringify(inputdata),
+        data : JSON.stringify(inputdata2),
         contentType: "application/json; charset=utf-8",
         success: function(resData) {
             alert(JSON.stringify(resData));

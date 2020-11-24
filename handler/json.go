@@ -1,8 +1,10 @@
 package handler
 
 import (
-	"fmt"
+	"encoding/json"
+	"io/ioutil"
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -19,22 +21,23 @@ func JsonHandler(c *gin.Context) {
 }
 
 func JsonTestHandler(c *gin.Context) {
+	client := http.Client{Timeout: 5 * time.Second}
 	c.Header("Content-Type", "application/json charset=utf-8")
 
 	var reqjson Date
 
 	c.Bind(&reqjson)
 
-	// url := "http://106.254.240.205:3030/posts/"
-	// numb := reqjson.date
-	//url = url + numb
-	fmt.Println(reqjson.Id)
-
+	url := "http://106.254.240.205:3030/posts/"
+	numb := reqjson.Id
+	url = url + numb
+	//d := c.PostForm(url)
+	var data Board
 	//Get통신
-	//data := GetCall(url)
+	resp, _ := client.Get(url)
+	respBody, _ := ioutil.ReadAll(resp.Body)
+	json.Unmarshal([]byte(respBody), &data)
 
-	//json.Unmarshal([]byte(data), &resjson)
-
-	c.JSON(200, reqjson)
+	c.JSON(200, data)
 
 }

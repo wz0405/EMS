@@ -3,6 +3,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    
+
 </head>
 
 <body>
@@ -15,9 +17,36 @@
     </form>
     <input  type="button" onclick="viewDataBtnClick()" value="조회" >
     <input  type="button" onclick="viewApiBtnClick()" value="검색" >
+    <input name="search" type="text" id="search"  value="1" >
+    <input  type="button" onclick="sendToGo()" value="전송" >
+    
+
 </body>
 
 <script>
+    function sendToGo(){
+
+        var formSerializeArray = $('#search').serializeArray();
+        var params = {};
+        for (var i = 0; i < formSerializeArray.length; i++){
+            params[formSerializeArray[i]['name']] = formSerializeArray[i]['value'];
+        }
+        $.ajax({
+            type : 'post',
+            url : '/sendToGo',
+            data : JSON.stringify(params),
+            error: function(){
+                alert("에러발생");
+            },
+            success : function(json){
+                alert(json.Title);
+                alert(JSON.stringify(json));
+            }
+        });
+
+
+    }
+    
     function viewDataBtnClick() {
         $.ajax({
             url:"/main_viewData",
@@ -51,5 +80,5 @@
         })
     }
 
-
+</script>
 

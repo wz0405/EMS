@@ -36,5 +36,8 @@ func (server *serverStruct) SetRoute() bool {
 
 	server.route.GET("/jsonTest", handler.JsonHandler)
 	server.route.POST("/json_test", handler.JsonTestHandler)
+
+	server.route.GET("/operation", handler.Operation)
+	server.route.POST("/operationTest", handler.OperationTest)
 	return true
 }

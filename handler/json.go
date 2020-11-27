@@ -27,7 +27,7 @@ func JsonTestHandler(c *gin.Context) {
 	var reqjson Date
 
 	c.Bind(&reqjson)
-
+	
 	url := "http://106.254.240.205:3030/posts/"
 	numb := reqjson.Id
 	url = url + numb

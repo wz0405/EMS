@@ -14,12 +14,19 @@
         <p><label for="name">B</label> <input id="fieldB" name="fieldB" size="15" type="text" readonly="true" /></p>
         <p><label for="name">C</label> <input id="fieldC" name="fieldC" size="15" type="text" readonly="true" /></p>
         <p><label for="name">D</label> <input id="fieldD" name="fieldD" size="15" type="text" readonly="true" /></p>
-    </form>
-    <input  type="button" onclick="viewDataBtnClick()" value="조회" >
-    <input  type="button" onclick="viewApiBtnClick()" value="검색" >
-    <input name="search" type="text" id="search"  value="1" >
-    <input  type="button" onclick="sendToGo()" value="전송" >
-    
+        <input id="test" name="test" type="text"></input>
+        <table id="mytable">
+            <tr>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+        </form>
+        <input  type="button" onclick="viewDataBtnClick()" value="조회" >
+        <input  type="button" onclick="viewApiBtnClick()" value="검색" >
+        <input name="search" type="text" id="search"  value="1" >
+        <input  type="button" onclick="sendToGo()" value="전송" >
+        
 
 </body>
 
@@ -48,11 +55,28 @@
     }
     
     function viewDataBtnClick() {
+        
+
+
         $.ajax({
             url:"/main_viewData",
             type:"POST",
             contentType: "application/json; charset=utf-8",
             success: function(resData) { 
+                var table = document.getElementById('mytable'), 
+                rows = table.getElementsByTagName('tr'),
+                i, j, cells, customerId;
+
+                for (i = 0, j = rows.length; i < j; ++i) {
+                    cells = rows[i].getElementsByTagName('td');
+                    if (!cells.length) {
+                        continue;
+                    }
+                    cells[0].innerHTML=resData.A;
+                    cells[1].innerHTML=resData.B;
+                
+                }
+                
                $("#fieldA").val(resData.A)
                $("#fieldB").val(resData.B)
                $("#fieldC").val(resData.C)
